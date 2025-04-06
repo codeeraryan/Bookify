@@ -1,0 +1,42 @@
+
+.list{
+    background: url("/public\images\sun.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+/* .ALimage{
+    background-image: url("/public/images/robot2.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+} */
+
+.file{
+    display: none;
+}
+
+.label{
+    border-color: #ccc;
+    padding:20px;
+    border-radius: 25px;
+    border-width: 2px;
+    border-style: dashed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* @media screen and (max-width: 600px) {
+    .image{
+        position: absolute;
+    }
+  } */
+   
+   
+   
+   
+   

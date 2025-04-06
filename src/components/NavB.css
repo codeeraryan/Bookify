@@ -1,0 +1,55 @@
+.nav{
+    z-index: 2;
+    font-weight: 200;
+   background-color:teal;
+   color: white;
+   font-size: x-large;
+    height:50px;
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3vw;
+    
+}
+
+.nav2{
+    display: flex;
+    font-weight: 200;
+    align-items: center;
+    gap:4vw;
+
+}
+.portrait{
+ display: none;
+}
+
+
+.nav h2{
+    font-size: 2vh;
+    font-weight: 700;
+}
+
+.nav h3{
+    font-weight: 700;
+}
+
+.menu{
+    font-size: 2vh;
+    
+    display:none;
+}
+
+
+@media (max-width:600px) {
+    .nav2{
+       display: none;
+
+    }
+ .menu{
+    display:block;
+    font-weight: 900;
+ }
+
+ 
+}
