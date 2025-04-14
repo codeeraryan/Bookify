@@ -10,7 +10,7 @@ function Cart() {
   useEffect(() => {
     // Calculate total price and platform fee
     const calculateTotals = () => {
-      const itemsTotal = cartData.cart.reduce((total, item) => total + item.price, 0);
+      const itemsTotal = cartData.cart.reduce((total, item) => total + parseInt(item.price), 0);
       setTotalPrice(itemsTotal);
       setPlatformFee((itemsTotal * 0.02).toFixed(2)); // 2% platform fee
     };
@@ -18,9 +18,16 @@ function Cart() {
     calculateTotals();
   }, [cartData.cart]);
 
-  // Function to format price with currency
+  const handleRemoveItem=(item)=>{
+    const newCart = cartData.cart.filter(elem=>elem.id!=item.id)
+     cartData.setCart(newCart); 
+     console.log(newCart);
+            
+  }
+
+  // Function to format price with rupee currency
   const formatPrice = (price) => {
-    return `$${Number(price).toFixed(2)}`;
+    return `Rs ${Number(price).toFixed(2)}`;
   };
 
   return (
@@ -64,7 +71,7 @@ function Cart() {
                       
                       {/* Action Buttons */}
                       <div className="w-full md:w-1/4 flex flex-row md:flex-col justify-between md:justify-start items-center md:items-end gap-3">
-                        <button className="flex items-center gap-1 text-red-500 hover:text-red-700 transition-colors">
+                        <button onClick={()=>handleRemoveItem(item)} className="flex items-center gap-1 text-red-500 hover:text-red-700 transition-colors">
                           <Trash2 size={16} />
                           <span>Remove</span>
                         </button>

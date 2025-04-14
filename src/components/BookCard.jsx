@@ -15,7 +15,14 @@ function BookCard(props) {
   const firebase=usefirebase();
   const cartData=useCart();
   const [Notify,setNotify]=useState(false)
-  const handleCart=()=>{cartData.setCart((prev)=>{return [...prev,props]}); 
+
+  const handleCart=()=>{
+    if (!firebase.isLoggedIn) {
+      alert('Login first !')
+      navigate("/login");
+      return;
+  }  
+  cartData.setCart((prev)=>{return [...prev,props]}); 
   cartData.setURL((prev)=>[...prev,url]);
   setNotify(prev=>!prev);
   console.log(cartData.cart);

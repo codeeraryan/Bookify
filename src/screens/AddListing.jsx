@@ -18,7 +18,7 @@ function AddListing() {
     const handleFormSubmit = async(evt) => {
         evt.preventDefault();
         if (!firebase.isLoggedIn) {
-            navigate("/register");
+            navigate("/login");
             return;
         }
 
@@ -90,7 +90,7 @@ function AddListing() {
                             <label htmlFor="isbn" className="sr-only">ISBN Number</label>
                             <input
                                 id="isbn"
-                                type="text"
+                                type='number'
                                 required
                                 value={isbn}
                                 onChange={(evt) => SetIsbn(evt.target.value)}
