@@ -17,7 +17,7 @@ function Home() {
   }, [])
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="relative bg-cover  md:bg-cover bg-center bg-no-fixed bg-[url('/public/images/bookshelf.webp')] h-screen" style={{backgroundAttachment: 'fixed'}}>
         <div className='text-center pt-40 flex flex-col gap-6 items-center justify-center text-4xl text-slate-300'>
           <h1 className='text-[80px] flex items-baseline font-[Bangers]'>Bookify</h1>
@@ -53,7 +53,9 @@ function Home() {
           ))} 
         </div>
       ) : (
+        <div className='flex justify-center items-center h-screen w-full'>
         <Loader/>
+        </div>
       )}
 
       {/* Footer */}

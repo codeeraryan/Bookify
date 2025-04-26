@@ -15,6 +15,8 @@ function AddListing() {
     const firebase = usefirebase();
     const navigate = useNavigate();
 
+    const [loading,setLoading] = useState(false);
+    
     const handleFormSubmit = async(evt) => {
         evt.preventDefault();
         if (!firebase.isLoggedIn) {
@@ -23,6 +25,7 @@ function AddListing() {
         }
 
         try {
+            setLoading(true);
             await firebase.handleCreateNewListing(name, isbn, price, coverPic);
             // Reset form after successful submission
             SetName("");
@@ -32,7 +35,7 @@ function AddListing() {
             setImgUrl("");
         } catch (error) {
             console.error("Error creating listing:", error);
-        }
+        } finally{ setLoading(false);}
     }
 
     const handleFileChange = (evt) => {
@@ -155,9 +158,10 @@ function AddListing() {
                         <div>
                             <button
                                 type="submit"
+                                disabled={loading}
                                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                             >
-                                Create Listing
+                                {loading?"Creating...":"Create Listing"}
                             </button>
                         </div>
                     </form>

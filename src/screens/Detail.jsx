@@ -71,7 +71,7 @@ function Detail() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="container  mx-auto px-4 py-8 max-w-6xl">
       {orderPlaced ? (
         <div className="bg-green-100 p-6 rounded-lg text-center shadow-md">
           <h2 className="text-2xl font-bold text-green-800 mb-2">Order Placed Successfully!</h2>
@@ -107,7 +107,7 @@ function Detail() {
             <div className="space-y-3 mb-6">
               <div className="flex justify-between items-center pb-3 border-b border-gray-100">
                 <span className="text-gray-600 font-medium">Price:</span>
-                <span className="text-lg font-bold text-teal-700">${data.price}</span>
+                <span className="text-lg font-bold text-teal-700">Rs {data.price}</span>
               </div>
               
               <div className="flex justify-between items-center pb-3 border-b border-gray-100">
