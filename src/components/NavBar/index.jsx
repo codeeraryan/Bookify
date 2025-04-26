@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Player } from '@lottiefiles/react-lottie-player';
 import { Menu, X, ShoppingCart, LogOut, UserPlus, LogIn, BookOpen, Package } from 'lucide-react';
-import { usefirebase } from '../context/Firebase';
-import Quotes from './Quotes';
-import './NavB.css';
+import { usefirebase } from '../../context/Firebase';
+import Quotes from '../Quotes';
+import './index.css';
 
 
 function NavB() {

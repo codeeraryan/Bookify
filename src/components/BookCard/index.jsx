@@ -1,16 +1,15 @@
 import React from 'react';
 import { useEffect,useState } from 'react';
-import { usefirebase } from '../context/Firebase';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-import "./BookCard.css"
+import "./index.css"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Bounce } from 'react-toastify';
 import { FaCartShopping } from "react-icons/fa6";
 import { GrView } from "react-icons/gr";
-import Notification from './Notification';
 import { FaCheckCircle } from "react-icons/fa";
+import { usefirebase } from '../../context/Firebase';
+import { useCart } from '../../context/CartContext';
 function BookCard(props) {
   const firebase=usefirebase();
   const cartData=useCart();

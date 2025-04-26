@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { usefirebase } from '../context/Firebase';
-import Loader from '../components/Loader';
+import { usefirebase } from '../../context/Firebase';
+import Loader from '../../components/Loader';
 
 function Detail() {
   const firebase = usefirebase();

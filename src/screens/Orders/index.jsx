@@ -1,6 +1,6 @@
 import React from 'react'
-import { usefirebase } from '../context/Firebase'
 import { useEffect } from 'react'
+import { usefirebase } from '../../context/Firebase';
 function Orders() {
  const firebase=usefirebase();
     //    useEffect(()=>{firebase.fetchMyOrders().then((books)=>{books.docs()})})

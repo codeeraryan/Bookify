@@ -1,10 +1,9 @@
 import React from 'react'
-import { usefirebase } from '../context/Firebase'
 import { useEffect, useState } from 'react'
-import BookCard from '../components/BookCard';
 import { IoSearchCircleSharp} from "react-icons/io5";
-import Loader from '../components/Loader';
-import Footer from '../components/Footer';
+import Loader from '../../components/Loader';
+import { usefirebase } from '../../context/Firebase';
+import BookCard from '../../components/BookCard';
 
 function Home() {
   const firebase = usefirebase();
@@ -13,12 +12,14 @@ function Home() {
   useEffect(() => {
     firebase.listAllBooks().then((response) => {
       SetQueryData(response.docs);
+      console.log(response.docs);
+      
     })
   }, [])
 
   return (
     <div className="flex flex-col bg-white min-h-screen">
-      <div className="relative bg-cover  md:bg-cover bg-center bg-no-fixed bg-[url('/public/images/bookshelf.webp')] h-screen" style={{backgroundAttachment: 'fixed'}}>
+      <div className="relative bg-cover  md:bg-cover bg-center bg-fixed bg-[url('/images/bookshelf.webp')] h-screen" >
         <div className='text-center pt-40 flex flex-col gap-6 items-center justify-center text-4xl text-slate-300'>
           <h1 className='text-[80px] flex items-baseline font-[Bangers]'>Bookify</h1>
           <div className='flex'>
@@ -57,9 +58,6 @@ function Home() {
         <Loader/>
         </div>
       )}
-
-      {/* Footer */}
-      <Footer/>
     </div>
   )
 }
