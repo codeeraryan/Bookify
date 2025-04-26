@@ -36,6 +36,7 @@ function Detail() {
       try {
         const value = await firebase.getBookById(params.bookId);
         setData(value.data());
+        console.log(firebase.user)
       } catch (error) {
         console.error("Error fetching book:", error);
       }

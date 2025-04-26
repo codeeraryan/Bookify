@@ -12,7 +12,8 @@ function Home() {
   useEffect(() => {
     firebase.listAllBooks().then((response) => {
       SetQueryData(response.docs);
-      console.log(response.docs);
+      console.log(response.docs[0].data());
+      
       
     })
   }, [])

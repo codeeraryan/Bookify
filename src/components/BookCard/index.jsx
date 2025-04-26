@@ -24,8 +24,7 @@ function BookCard(props) {
   cartData.setCart((prev)=>{return [...prev,props]}); 
   cartData.setURL((prev)=>[...prev,url]);
   setNotify(prev=>!prev);
-  console.log(cartData.cart);
-
+  
 }
   
   const navigate=useNavigate();
@@ -42,7 +41,7 @@ function BookCard(props) {
     <div class="content" >
       <p class="title">{props.name}</p>
       <p class="title price">Price: {props.price}</p>
-    {props.userName?  <p class=" owner">Book Owner: {props.userName}</p>:null}
+  <p class=" owner">Book Owner: {props?.userName}</p>
     </div>
     <span className='card-btn flex items-center justify-center gap-2 '><button  onClick={(e)=>{navigate(`/book/view/${props.id}`)}}>View Book</button><GrView /></span>
   </div>

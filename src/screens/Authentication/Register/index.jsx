@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, LogIn } from 'lucide-react';
+import { Mail, Lock, LogIn ,User} from 'lucide-react';
 import { usefirebase } from '../../../context/Firebase';
 
 function Register() {
   const firebase = usefirebase();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +29,7 @@ function Register() {
     setError("");
     setIsLoading(true);
     try {
-      await firebase.SignUpUserWithEmailPass(email, password);
+      await firebase.SignUpUserWithEmailPass(email, password,name);
       navigate("/");
     } catch (err) {
       setError("Registration failed. Please try again.");
@@ -66,6 +67,26 @@ function Register() {
           )}
 
           <form className="space-y-6" onSubmit={handleFormSubmit}>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Full Name
+              </label>
+              <div className="mt-1 relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User size={18} className="text-gray-400" />
+                </div>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  className="pl-10 block w-full border-gray-300 rounded-md border-2 p-2 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-400"
+                  placeholder="Your Name"
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
+                />
+              </div>
+            </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email Address

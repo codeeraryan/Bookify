@@ -1,6 +1,6 @@
 import React,{useContext,useState,useEffect} from 'react';
 import { createContext } from 'react';
-import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut } from 'firebase/auth'; 
+import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut, updateProfile } from 'firebase/auth'; 
 import { initializeApp } from "firebase/app";
 import { getFirestore,collection,addDoc,getDocs,getDoc,doc, query, where} from 'firebase/firestore';
 import firebase from 'firebase/compat/app';
@@ -29,11 +29,12 @@ export const usefirebase=()=>useContext(firebaseContext);
 
 //function
 export const FirebaseProvider=(props)=> {
-  const[user,SetUser]=useState(null);
+  const[user,setUser]=useState(null);
   const [order,setOrder]=useState(null);
   const navigate=useNavigate();
-  useEffect(()=>{onAuthStateChanged(auth,(user)=>{if(user)SetUser(user); else SetUser(null)})},[])
-const placeOrder=async(qty,bookId)=>{const collectionRef=collection(firestore,"Books",bookId,"orders");
+
+  useEffect(()=>{onAuthStateChanged(auth,(user)=>{if(user)setUser(user); else setUser(null)})},[])
+const placeOrder=async(qty,bookId)=>{const collectionRef=collection(firestore,user.uid,"Books",bookId,"orders");
   const result= await addDoc(collectionRef,{
     userID:user.uid,
     userEmail:user.email,
@@ -51,13 +52,29 @@ const placeOrder=async(qty,bookId)=>{const collectionRef=collection(firestore,"B
 //   console.log(result);
 //   return result;
 // }
-const SignUpUserWithEmailPass=(email,password)=>
-  createUserWithEmailAndPassword(auth,email,password).then(()=>alert('signUp successfull')).catch((error)=>{alert(error.message)});
+const SignUpUserWithEmailPass=async(email,password,name)=>{
+try{
+   const userCredential= await createUserWithEmailAndPassword(auth,email,password);
+  const user = userCredential.user;
+  
+  console.log(name)
+  await updateProfile(user, {
+    displayName: name
+  });
+  alert('Signed Up');
+  navigate("/")
+}
+  catch(error){
+    console.log(error)
+  }
+  
+}
 const SignInUser=(email,password)=>signInWithEmailAndPassword(auth,email,password).then(()=>{alert('Logged In');navigate("/")}).catch((error)=>{alert(error.message)});
 const SignOutUser=()=>signOut(auth).then(()=>alert('Successfully Logged Out')).catch((error)=>{alert(error.message)});
 const SignInWithGoogle=()=>signInWithPopup(auth,googleProvider).then(()=>{alert('Logged In');navigate("/")}).catch((error)=>{alert(error.message)});
 const isLoggedIn= user?true:false;
 const listAllBooks=()=>{return getDocs(collection(firestore,"Books"))}
+const listAllOrders=()=>{return getDocs(collection(firestore,"Orders"))}
 const getImageUrl=(path)=>{return getDownloadURL(ref(storage,path))}
 const getBookById=async(id)=>{const docRef=doc(firestore,"Books",id);const bookDetail=await getDoc(docRef);return bookDetail;}
 const handleCreateNewListing=async(name,isbn,price,coverPic)=>{
@@ -73,7 +90,7 @@ const handleCreateNewListing=async(name,isbn,price,coverPic)=>{
     userName:user.displayName,
     userPhoto:user.photoURL,
 
-  }).then(()=>alert("succesfully created"));
+  }).then(()=>{alert("succesfully created");navigate('/')});
 
   
 
@@ -82,7 +99,7 @@ const handleCreateNewListing=async(name,isbn,price,coverPic)=>{
 
 
   return (
-    <firebaseContext.Provider value={{SignInWithGoogle,SignUpUserWithEmailPass,SignInUser,SignOutUser,isLoggedIn,handleCreateNewListing,listAllBooks,getImageUrl,getBookById,placeOrder,setOrder,order}}>
+    <firebaseContext.Provider value={{SignInWithGoogle,SignUpUserWithEmailPass,SignInUser,SignOutUser,isLoggedIn,handleCreateNewListing,listAllBooks,getImageUrl,getBookById,placeOrder,setOrder,order,setUser,user}}>
         {props.children}
     </firebaseContext.Provider>
       
