@@ -2,7 +2,7 @@ import React,{useContext,useState,useEffect} from 'react';
 import { createContext } from 'react';
 import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut, updateProfile } from 'firebase/auth'; 
 import { initializeApp } from "firebase/app";
-import { getFirestore,collection,addDoc,getDocs,getDoc,doc, query, where} from 'firebase/firestore';
+import { getFirestore,collection,addDoc,getDocs,getDoc,doc, query, where, updateDoc} from 'firebase/firestore';
 import firebase from 'firebase/compat/app';
 import { getStorage,ref,uploadBytes,getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
@@ -34,13 +34,25 @@ export const FirebaseProvider=(props)=> {
   const navigate=useNavigate();
 
   useEffect(()=>{onAuthStateChanged(auth,(user)=>{if(user)setUser(user); else setUser(null)})},[])
-const placeOrder=async(qty,bookId)=>{const collectionRef=collection(firestore,user.uid,"Books",bookId,"orders");
+
+    const cancelOrder = async (orderId) => {
+      try {
+        const orderRef = doc(firestore, "Users", user.uid, "Orders", orderId);
+        await updateDoc(orderRef, {
+          status: "cancelled"
+        });
+        alert("Order cancelled successfully");
+      } catch (error) {
+        console.error("Error cancelling order:", error);
+        alert("Failed to cancel order");
+      }
+    };
+
+const placeOrder=async(qty,bookId)=>{const collectionRef=collection(firestore, "Users", user.uid, "Orders");;
   const result= await addDoc(collectionRef,{
-    userID:user.uid,
-    userEmail:user.email,
-    userName:user.displayName,
-    userPhoto:user.photoURL,
-    qty:Number(qty),
+    orderDate: Date.now(), 
+    bookId:bookId,
+    qty:Number(qty)
   });
   return result;
 }
@@ -74,7 +86,7 @@ const SignOutUser=()=>signOut(auth).then(()=>alert('Successfully Logged Out')).c
 const SignInWithGoogle=()=>signInWithPopup(auth,googleProvider).then(()=>{alert('Logged In');navigate("/")}).catch((error)=>{alert(error.message)});
 const isLoggedIn= user?true:false;
 const listAllBooks=()=>{return getDocs(collection(firestore,"Books"))}
-const listAllOrders=()=>{return getDocs(collection(firestore,"Orders"))}
+const listAllOrders=()=>{return getDocs(collection(firestore, "Users", user.uid, "Orders"))}
 const getImageUrl=(path)=>{return getDownloadURL(ref(storage,path))}
 const getBookById=async(id)=>{const docRef=doc(firestore,"Books",id);const bookDetail=await getDoc(docRef);return bookDetail;}
 const handleCreateNewListing=async(name,isbn,price,coverPic)=>{
@@ -99,7 +111,7 @@ const handleCreateNewListing=async(name,isbn,price,coverPic)=>{
 
 
   return (
-    <firebaseContext.Provider value={{SignInWithGoogle,SignUpUserWithEmailPass,SignInUser,SignOutUser,isLoggedIn,handleCreateNewListing,listAllBooks,getImageUrl,getBookById,placeOrder,setOrder,order,setUser,user}}>
+    <firebaseContext.Provider value={{SignInWithGoogle,SignUpUserWithEmailPass,SignInUser,SignOutUser,isLoggedIn,handleCreateNewListing,listAllBooks,listAllOrders,getImageUrl,getBookById,placeOrder,setOrder,order,setUser,user,cancelOrder}}>
         {props.children}
     </firebaseContext.Provider>
       

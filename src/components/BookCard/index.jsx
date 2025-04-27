@@ -48,8 +48,6 @@ function BookCard(props) {
   <p onClick={()=>{handleCart()}} class="tag">{Notify?<FaCheckCircle />:<FaCartShopping />}</p>
 </div>
 
-
-
   </>
   )
 }

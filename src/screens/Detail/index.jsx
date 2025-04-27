@@ -72,11 +72,16 @@ function Detail() {
   }
 
   return (
-    <div className="container  mx-auto px-4 py-8 max-w-6xl">
+    <div className="container h-screen  mx-auto px-4 py-8 ">
       {orderPlaced ? (
         <div className="bg-green-100 p-6 rounded-lg text-center shadow-md">
           <h2 className="text-2xl font-bold text-green-800 mb-2">Order Placed Successfully!</h2>
           <p className="text-green-700">Thank you for your purchase.</p>
+          <img 
+          src="/images/orderPlaced.png" 
+          alt="Order Placed" 
+          className="max-w-xs mx-auto mb-4"
+        />
         </div>
       ) : (
         <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl shadow-lg p-6">
