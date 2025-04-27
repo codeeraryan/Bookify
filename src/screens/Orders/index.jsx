@@ -14,11 +14,11 @@ function Orders() {
       try {
         const response = await firebase.listAllOrders();
         setOrderData(response.docs);
-        setIsLoading(false);
         console.log("Orders fetched:", response.docs.length);
       } catch (error) {
         console.error("Error fetching orders:", error);
       } 
+     finally {setIsLoading(false);}
     };
 
     fetchOrders();

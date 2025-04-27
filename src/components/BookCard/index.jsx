@@ -13,17 +13,23 @@ import { useCart } from '../../context/CartContext';
 function BookCard(props) {
   const firebase=usefirebase();
   const cartData=useCart();
-  const [Notify,setNotify]=useState(false)
+  const [Notify,setNotify]=useState(false);
 
-  const handleCart=()=>{
+  const handleCart=async()=>{
     if (!firebase.isLoggedIn) {
       alert('Login first !')
       navigate("/login");
       return;
   }  
-  cartData.setCart((prev)=>{return [...prev,props]}); 
-  cartData.setURL((prev)=>[...prev,url]);
-  setNotify(prev=>!prev);
+
+  try{
+ const result= await firebase.handleCart(props.id);
+ cartData.setResult(result);
+  setNotify(prev=>!prev);}
+  catch(error){
+    console.log(error.message);
+    
+  }
   
 }
   

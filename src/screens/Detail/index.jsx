@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 import { usefirebase } from '../../context/Firebase';
 import Loader from '../../components/Loader';
 
@@ -11,8 +11,14 @@ function Detail() {
   const [qty, setQty] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const navigate = useNavigate();
 
   const handlePlaceOrder = async () => {
+    if (!firebase.isLoggedIn) {
+      alert('Login first !')
+      navigate("/login");
+      return;
+  }
     if (!qty || qty <= 0) {
       alert("Please enter a valid quantity");
       return;

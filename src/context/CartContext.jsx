@@ -5,10 +5,10 @@ export const useCart=()=>useContext(cartContext);
 export const CartProvider=(props)=>{
  
  const[cart,setCart]=useState([]);
- const[url,setURL]=useState("");
+ const[result,setResult]=useState("");
 
  
     return(
-<cartContext.Provider value={{setCart,cart,url,setURL}}>{props.children}</cartContext.Provider>
+<cartContext.Provider value={{setCart,cart,result,setResult}}>{props.children}</cartContext.Provider>
     )
 }
