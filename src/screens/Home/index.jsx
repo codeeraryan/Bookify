@@ -38,9 +38,9 @@ function Home() {
   </p>
   <div className="flex w-full justify-center items-center max-w-md">
   <div className="overflow-hidden rounded-2xl mt-8 flex items-center bg-white w-[90%] shadow-lg">
-    <span className="flex justify-between items-center w-full">
+    <span className="flex  z-[3] justify-between items-center w-full">
       <input
-        className="flex-1 text-xl md:text-2xl text-zinc-900 placeholder:font-[Bangers] focus:outline-none py-2 px-3"
+        className="flex-1  text-xl md:text-2xl text-zinc-900 placeholder:font-[Bangers] focus:outline-none py-2 px-3"
         type="text"
         placeholder="Search Books"
         onChange={(e) => setSearchValue(e.target.value)}
