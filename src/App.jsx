@@ -12,24 +12,27 @@ import Orders from './screens/Orders'
 import Cart from './screens/Cart'
 import NavB from './components/NavBar'
 import Footer from './components/Footer'
+import SearchResult from './screens/SearchResult'
 
 
 function App() {
   return (
-    <div className='relative '>
+    <div className='flex flex-col min-h-screen'>
       <NavB/>
-     <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/register' element={<Register/>}/>
-      <Route path='/login' element={<Login/>}/>
-      <Route path="/book/view/:bookId" element={<Detail/>}/>
-      <Route path='/book/list' element={<AddListing/>}/>
-      <Route path="/book/orders" element={<Orders/>}/>
-      <Route path="/cart" element={<Cart/>}/>
-     </Routes>
+      <main className="flex-grow">
+        <Routes>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/register' element={<Register/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path="/book/view/:bookId" element={<Detail/>}/>
+          <Route path='/book/list' element={<AddListing/>}/>
+          <Route path="/book/orders" element={<Orders/>}/>
+          <Route path="/cart" element={<Cart/>}/>
+          <Route path="/searchResult" element={<SearchResult/>}/>
+        </Routes>
+      </main>
       <Footer/>
     </div>
-   
   )
 }
 

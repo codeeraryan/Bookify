@@ -3,7 +3,7 @@ import { IoLogoGithub, IoLogoLinkedin, IoLogoTwitter, IoMail } from "react-icons
 
 const Footer = () => {
   return (
-    <footer className="bg-teal-800 text-white py-12 mt-auto">
+    <footer className="bg-teal-800 text-white  py-12 mt-auto">
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About Section */}
           <div>

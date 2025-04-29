@@ -2,7 +2,7 @@ import React,{useContext,useState,useEffect} from 'react';
 import { createContext } from 'react';
 import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut, updateProfile } from 'firebase/auth'; 
 import { initializeApp } from "firebase/app";
-import { getFirestore,collection,addDoc,getDocs,getDoc,doc, query, where, updateDoc} from 'firebase/firestore';
+import { getFirestore,collection,addDoc,getDocs,getDoc,doc, query, where, updateDoc, deleteDoc} from 'firebase/firestore';
 import firebase from 'firebase/compat/app';
 import { getStorage,ref,uploadBytes,getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
@@ -58,12 +58,17 @@ const placeOrder=async(qty,bookId)=>{const collectionRef=collection(firestore, "
   });
   return result;
 }
-const handleCart=async(bookId)=>{const collectionRef=collection(firestore, "Users", user.uid, "Cart");;
+const handleCart=async(bookId)=>{const collectionRef=collection(firestore, "Users", user.uid, "Cart");
   const result= await addDoc(collectionRef,{
     bookId:bookId,
   });
   return result;
 }
+
+const removeCartItem = async (cartItemId) => {
+  const itemRef = doc(firestore, "Users", user.uid, "Cart", cartItemId);
+  await deleteDoc(itemRef);
+};
 // const fetchMyOrders=async()=>{
 //   if (!user) return null;
 //   const collectionRef=collection(firestore,"Books");
@@ -118,7 +123,7 @@ const handleCreateNewListing=async(name,isbn,price,coverPic)=>{
 
 
   return (
-    <firebaseContext.Provider value={{SignInWithGoogle,SignUpUserWithEmailPass,SignInUser,SignOutUser,isLoggedIn,handleCreateNewListing,listAllBooks,listAllOrders,getImageUrl,getBookById,placeOrder,setOrder,order,setUser,user,cancelOrder,handleCart,listAllCartItems}}>
+    <firebaseContext.Provider value={{SignInWithGoogle,SignUpUserWithEmailPass,SignInUser,SignOutUser,isLoggedIn,handleCreateNewListing,listAllBooks,listAllOrders,getImageUrl,getBookById,placeOrder,setOrder,order,setUser,user,cancelOrder,handleCart,listAllCartItems,removeCartItem}}>
         {props.children}
     </firebaseContext.Provider>
       

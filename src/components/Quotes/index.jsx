@@ -14,7 +14,7 @@ const quotes = [
 ];
 
         const randomIndex =Math.floor(Math.random()*quotes.length);
-        console.log(randomIndex);
+    
        
         useEffect(()=>{  setQuote(()=>quotes[randomIndex])},[])
   return (

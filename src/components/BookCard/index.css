@@ -77,8 +77,7 @@
 }
 
 .card-btn:hover {
-  background-color: greenyellow;
-  color: rgb(35, 35, 35);
+  background-color: teal;
 }
 .card:hover {
   background-color: white;
@@ -86,14 +85,16 @@
 
 .tag {
   position: absolute;
-  background-color: greenyellow;
-  color: rgb(0, 0, 0);
+  background-color: white;
+  color: teal;
   left: 12px;
   top: 12px;
+  border-width:2px ;
+  border-color: teal;
   padding: 6px 12px;
   border-radius: 15px;
-  font-size: 0.75em;
-  font-weight: 500;
+  font-size: 0.95em;
+  font-weight: 600;
 }
 
 @media screen and (max-width: 600px) {

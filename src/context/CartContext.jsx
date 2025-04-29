@@ -6,9 +6,10 @@ export const CartProvider=(props)=>{
  
  const[cart,setCart]=useState([]);
  const[result,setResult]=useState("");
+ const [data,setData]=useState([]);
 
  
     return(
-<cartContext.Provider value={{setCart,cart,result,setResult}}>{props.children}</cartContext.Provider>
+<cartContext.Provider value={{setCart,cart,result,setResult,data,setData}}>{props.children}</cartContext.Provider>
     )
 }

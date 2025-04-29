@@ -213,10 +213,7 @@ const CartItems = ({ item, firebase, formatPrice }) => {
 
   const handleRemoveItem = async (item) => {
     try {
-      // First remove from Firebase if needed
-      await firebase.removeFromCart(item.id);
-      
-      // Then update local state by filtering out the removed item
+      await firebase.removeCartItem(item.id);
       const newResult = cartData.result.filter(elem => elem.id !== item.id);
       cartData.setResult(newResult);
     } catch (error) {

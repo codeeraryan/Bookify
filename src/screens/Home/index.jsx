@@ -4,11 +4,22 @@ import { IoSearchCircleSharp} from "react-icons/io5";
 import Loader from '../../components/Loader';
 import { usefirebase } from '../../context/Firebase';
 import BookCard from '../../components/BookCard';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
 
 function Home() {
   const firebase = usefirebase();
+  const cartData = useCart();
   const [queryData, SetQueryData] = useState(null)
-  
+  const [searchValue, setSearchValue] = useState('')
+
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    const search = queryData.map((book)=>book.data());
+     const searchItems= search.filter((book)=>{        
+      return book.name.toLowerCase().trim().includes(searchValue.toLowerCase().trim());})
+      navigate('/searchResult', { state: { results: searchItems } });  };
   useEffect(() => {
     firebase.listAllBooks().then((response) => {
       SetQueryData(response.docs); 
@@ -16,23 +27,35 @@ function Home() {
   }, [])
 
   return (
-    <div className="flex flex-col bg-white min-h-screen">
+    <div className="flex flex-col bg-white min-h-[90vh]">
       <div className="relative bg-cover  md:bg-cover bg-center bg-fixed bg-[url('/images/bookshelf.webp')] h-screen" >
-        <div className='text-center pt-40 flex flex-col gap-6 items-center justify-center text-4xl text-slate-300'>
-          <h1 className='text-[80px] flex items-baseline font-[Bangers]'>Bookify</h1>
-          <div className='flex'>
-            <div className='overflow-hidden  rounded-2xl mt-8  items-center bg-white w-[30vh]'>
-              <span className='flex justify-between items-center px-2'>
-              <input 
-                className='z-[1] text-2xl text-zinc-900 placeholder:font-[Bangers]  w-[100%] focus:outline-none' 
-                type='text' 
-                placeholder='Search Books'
-              />
-              <IoSearchCircleSharp className=' text-[40px]' />
-              </span>
-            </div>
-          </div>
-        </div>
+      <div className="text-center pt-40 flex flex-col gap-6 items-center justify-center text-3xl md:text-4xl text-slate-300 px-4">
+  <h1 className="text-[60px] md:text-[80px] flex items-baseline font-[Bangers]">
+    Bookify
+  </h1>
+  <p className="text-lg md:text-2xl text-slate-400 max-w-xl">
+    Discover your next favorite book. Browse, search, and explore our growing collection.
+  </p>
+  <div className="flex w-full justify-center items-center max-w-md">
+  <div className="overflow-hidden rounded-2xl mt-8 flex items-center bg-white w-[90%] shadow-lg">
+    <span className="flex justify-between items-center w-full">
+      <input
+        className="flex-1 text-xl md:text-2xl text-zinc-900 placeholder:font-[Bangers] focus:outline-none py-2 px-3"
+        type="text"
+        placeholder="Search Books"
+        onChange={(e) => setSearchValue(e.target.value)}
+      />
+
+        <IoSearchCircleSharp 
+          onClick={handleSearch} 
+          className="text-[40px] md:text-[50px] text-zinc-600 cursor-pointer" 
+        />
+      
+    </span>
+  </div>
+</div>
+</div>
+
         <img 
           className='absolute bottom-0 bg-fill bg-center bg-no-repeat' 
           src='/images/middlemarch.png' 

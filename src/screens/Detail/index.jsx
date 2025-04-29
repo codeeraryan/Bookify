@@ -92,7 +92,7 @@ function Detail() {
       ) : (
         <div className="flex flex-col lg:flex-row gap-8 bg-white rounded-xl shadow-lg p-6">
           {/* Book Image Section */}
-          <div className="lg:w-1/2 w-full">
+          <div className="lg:w-1/2 w-full ">
             <h2 className="text-3xl font-bold mb-4 text-gray-800 capitalize">{data.name}</h2>
             <div className="rounded-lg overflow-hidden shadow-md h-80 lg:h-96">
               {url ? (

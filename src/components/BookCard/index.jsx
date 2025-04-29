@@ -51,7 +51,7 @@ function BookCard(props) {
     </div>
     <span className='card-btn flex items-center justify-center gap-2 '><button  onClick={(e)=>{navigate(`/book/view/${props.id}`)}}>View Book</button><GrView /></span>
   </div>
-  <p onClick={()=>{handleCart()}} class="tag">{Notify?<FaCheckCircle />:<FaCartShopping />}</p>
+  <p onClick={()=>{handleCart()}} class="tag">{Notify?<FaCheckCircle />:<FaCartShopping size={11} />}</p>
 </div>
 
   </>
