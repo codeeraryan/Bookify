@@ -34,12 +34,17 @@ function Orders() {
 
   return (
     <div className="flex-grow">
-      {orderData.length > 0 ? (
+      {orderData && orderData.length > 0 ? (
         <div className="container mx-auto py-8 px-4 min-h-[50vh]">
           <h1 className="text-2xl font-bold mb-6">Your Orders</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {orderData.map((order) => (
-              <OrderCard key={order.id} order={order} firebase={firebase} />
+              <OrderCard 
+                key={order.id} 
+                order={order} 
+                firebase={firebase} 
+                setOrderData={setOrderData} 
+              />
             ))}
           </div>
         </div>
@@ -59,29 +64,29 @@ function Orders() {
   );
 }
 
-function OrderCard({ order, firebase }) {
+function OrderCard({ order, firebase, setOrderData }) {
   const [bookData, setBookData] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   
   const orderDetails = order.data();
 
-  useEffect(() => {
-    const fetchBookDetails = async () => {
-      try {
-        if (orderDetails && orderDetails.bookId) {
-          const bookDoc = await firebase.getBookById(orderDetails.bookId);
-          if (bookDoc.exists) {
-            setBookData(bookDoc.data());
-          }
+  const fetchBookDetails = async () => {
+    try {
+      if (orderDetails && orderDetails.bookId) {
+        const bookDoc = await firebase.getBookById(orderDetails.bookId);
+        if (bookDoc.exists) {
+          setBookData(bookDoc.data());
         }
-      } catch (error) {
-        console.error("Error fetching book details:", error);
-      } finally {
-        setIsLoading(false);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching book details:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchBookDetails();
   }, [orderDetails, firebase]);
 
@@ -104,8 +109,30 @@ function OrderCard({ order, firebase }) {
     fetchImage();
   }, [bookData, firebase]);
 
+  const handleCancelOrder = (orderId) => {
+    const result = confirm('Do you really want to cancel this order?');
+    if (result) {
+      firebase.cancelOrder(orderId).then(() => {
+        // Update the order status locally
+        setOrderData((prevData) =>
+          prevData.map((order) =>
+            order.id === orderId
+              ? { ...order, data: () => ({ ...order.data(), status: 'cancelled' }) }
+              : order
+          )
+        );
+      }).catch((error) => {
+        console.error("Error canceling order:", error);
+      });
+    }
+  };
+
   if (isLoading) {
-    return <Loader />;
+    return (
+      <div className="flex h-screen justify-center items-center">
+        <Loader />
+      </div>
+    );
   }
 
   if (!bookData) {
@@ -117,14 +144,7 @@ function OrderCard({ order, firebase }) {
     );
   }
 
-  const handleCancelOrder = (orderId) => {
-    const result = confirm('Do you really want to cancel this order');
-    if (result) {
-      firebase.cancelOrder(orderId);
-    }
-  }
-
-  return (
+ return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden w-full">
       <div className="flex flex-col sm:flex-row">
         <div className="w-full sm:w-1/3 h-48">

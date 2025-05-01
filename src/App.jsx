@@ -13,9 +13,11 @@ import Cart from './screens/Cart'
 import NavB from './components/NavBar'
 import Footer from './components/Footer'
 import SearchResult from './screens/SearchResult'
-
+import { usefirebase } from './context/Firebase'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
+  const {isLoggedIn}=usefirebase()
   return (
     <div className='flex flex-col min-h-screen'>
       <NavB/>
@@ -25,10 +27,12 @@ function App() {
           <Route path='/register' element={<Register/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path="/book/view/:bookId" element={<Detail/>}/>
-          <Route path='/book/list' element={<AddListing/>}/>
-          <Route path="/book/orders" element={<Orders/>}/>
-          <Route path="/cart" element={<Cart/>}/>
           <Route path="/searchResult" element={<SearchResult/>}/>
+          <Route element={<ProtectedRoute />}>
+          <Route path="/book/orders" element={<Orders/>}/>
+          <Route path='/book/list' element={<AddListing/>}/>
+          <Route path="/cart" element={<Cart/>}/>
+          </Route>
         </Routes>
       </main>
       <Footer/>

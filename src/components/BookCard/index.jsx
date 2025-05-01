@@ -10,12 +10,15 @@ import { GrView } from "react-icons/gr";
 import { FaCheckCircle } from "react-icons/fa";
 import { usefirebase } from '../../context/Firebase';
 import { useCart } from '../../context/CartContext';
+import { Loader } from 'lucide-react';
 function BookCard(props) {
   const firebase=usefirebase();
   const cartData=useCart();
   const [Notify,setNotify]=useState(false);
+  const [isLoading,setIsLoading]=useState(false);
 
   const handleCart=async()=>{
+
     if (!firebase.isLoggedIn) {
       alert('Login first !')
       navigate("/login");
@@ -23,12 +26,16 @@ function BookCard(props) {
   }  
 
   try{
+    setIsLoading(true);
  const result= await firebase.handleCart(props.id);
  cartData.setResult(result);
   setNotify(prev=>!prev);}
   catch(error){
     console.log(error.message);
     
+  }
+  finally{
+    setIsLoading(false);
   }
   
 }
@@ -51,7 +58,7 @@ function BookCard(props) {
     </div>
     <span className='card-btn flex items-center justify-center gap-2 '><button  onClick={(e)=>{navigate(`/book/view/${props.id}`)}}>View Book</button><GrView /></span>
   </div>
-  <p onClick={()=>{handleCart()}} class="tag">{Notify?<FaCheckCircle />:<FaCartShopping size={11} />}</p>
+  <p onClick={()=>{handleCart()}} class="tag">{Notify?<FaCheckCircle size={13} />:isLoading?<Loader size={13} />:<FaCartShopping size={13} />}</p>
 </div>
 
   </>

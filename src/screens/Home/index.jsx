@@ -14,17 +14,24 @@ function Home() {
   const [searchValue, setSearchValue] = useState('')
 
   const navigate = useNavigate();
-
   const handleSearch = () => {
-    const search = queryData.map((book)=>book.data());
-     const searchItems= search.filter((book)=>{        
-      return book.name.toLowerCase().trim().includes(searchValue.toLowerCase().trim());})
-      navigate('/searchResult', { state: { results: searchItems } });  };
-  useEffect(() => {
+    const search = queryData.map((book) => {
+        // Include the document ID in the result
+        return { id: book.id, ...book.data() };
+    });
+
+    const searchItems = search.filter((book) => {
+        return book.name.toLowerCase().trim().includes(searchValue.toLowerCase().trim());
+    });
+
+    navigate('/searchResult', { state: { results: searchItems } });
+};
+
+useEffect(() => {
     firebase.listAllBooks().then((response) => {
-      SetQueryData(response.docs); 
-    })
-  }, [])
+        SetQueryData(response.docs); // Keep the raw Firestore docs for further use
+    });
+}, []);
 
   return (
     <div className="flex flex-col bg-white min-h-[90vh]">
