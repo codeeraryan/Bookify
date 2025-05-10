@@ -54,11 +54,16 @@ function BookCard(props) {
     <div class="content" >
       <p class="title">{props.name}</p>
       <p class="title price">Price: {props.price}</p>
-  <p class=" owner">Book Owner: {props?.userName}</p>
+      <p class=" owner">Book Owner: {props?.userName}</p>
     </div>
-    <span className='card-btn flex items-center justify-center gap-2 '><button  onClick={(e)=>{navigate(`/book/view/${props.id}`)}}>View Book</button><GrView /></span>
+    <span className='card-btn flex items-center justify-center gap-2 '>
+      <button  onClick={(e)=>{navigate(`/book/view/${props.id}`)}}>View Book</button>
+      <GrView />
+      </span>
   </div>
-  <p onClick={()=>{handleCart()}} class="tag">{Notify?<FaCheckCircle size={13} />:isLoading?<Loader size={13} />:<FaCartShopping size={13} />}</p>
+  <p onClick={()=>{handleCart()}} class="tag">
+    {Notify?<FaCheckCircle size={13} />:isLoading?<Loader size={13} />:<FaCartShopping size={13} />}
+  </p>
 </div>
 
   </>
